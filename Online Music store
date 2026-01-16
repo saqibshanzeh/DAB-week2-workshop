@@ -1,0 +1,65 @@
+CREATE TABLE Artists (
+    Artist_ID    INTEGER PRIMARY KEY,
+    Artist_Name  TEXT Not Null,
+    Genre        TEXT,
+    Country      TEXT,
+    Active_Since DATE
+);
+
+CREATE TABLE Songs (
+    Song_ID INTEGER Primary Key,
+    Title TEXT Not Null,
+    Artist_ID INTEGER,
+    Album TEXT,
+    Release_Date DATE,
+    Duration_Seconds INTEGER,
+    Popularity_Score INTEGER
+);
+
+CREATE TABLE Customers (
+    Customer_ID INTEGER Primary Key,
+    First_Name TEXT Not Null,
+    Last_Name TEXT Not Null,
+    Email TEXT Not Null,
+    Join_Date  DATE,
+    Premium_Member BOOLEAN
+);
+
+CREATE TABLE Purchases (
+    Purchase_ID INTEGER Primary Key,
+    customer_ID INTEGER Customers,
+    Song_ID INTEGER,
+    Purchase_date DATE,
+    Price DECIMAL
+);
+
+CREATE TABLE Streams (
+    Stream_ID INTEGER Primary Key,
+    Customer_ID INTEGER,
+    Song_ID INTEGER,
+    Stream_Date DATE,
+    Stream_Time TIME
+    );
+    
+
+--Retrieve the titles and release dates of all songs released in 2022, ordered by release date (newest first).
+SELECT Title, Release_Date from Songs WHERE Release_Date BETWEEN '2022-01-01' AND '2022-12-31' ORDER BY Release_Date ASC;
+
+
+--Filtering: Find all songs with a popularity score greater than 80 and a duration less than 4 minutes (240 seconds).
+SELECT Song_ID from Songs where Popularity_Score >80 AND Duration_Seconds < 240;
+
+
+--Pattern Matching: List all artists whose names start with "The".
+SELECT Artist_Name from Artists WHERE Artist_Name Like 'The%';
+
+
+--Multiple Conditions: Find all premium customers who joined in 2022.
+SELECT * from Customers WHERE Join_Date LIKE '2022%' AND Premium_Member LIKE 't%';
+
+--Calculate the total duration (in minutes) of all songs in the database and display the result with an appropriate column name.
+SELECT SUM(Duration_Seconds)/60 AS Total_Duration_Minutes from Songs; 
+
+--Advanced Filtering: Find the top 5 most expensive song purchases in the database.
+SELECT Song_ID from Purchases ORDER BY Price DESC
+LIMIT 5;
