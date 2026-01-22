@@ -63,3 +63,38 @@ SELECT SUM(Duration_Seconds)/60 AS Total_Duration_Minutes from Songs;
 --Advanced Filtering: Find the top 5 most expensive song purchases in the database.
 SELECT Song_ID from Purchases ORDER BY Price DESC
 LIMIT 5;
+
+--First, find all song_ids from songs with a popularity score above 90. Then, use those song_ids to find purchases of those songs.
+SELECT * from Purchases WHERE Song_ID IN (
+SELECT Song_ID from Songs WHERE Popularity_Score >90
+);
+
+--Find all purchases made between January 1, 2023 and March 31, 2023.
+SELECT * from Purchases WHERE Purchase_date BETWEEN '2023-01-01' AND '2023-03-31';
+
+--: Identify the songs with the highest popularity scores (above 90).
+SELECT * from Songs WHERE Popularity_Score >90 ORDER BY Popularity_Score DESC;
+
+--Discussion Questions
+/* 1. Enforces data integrity using appropriate constraints and data types 
+Avoids many NULL values that would exist in a single user interactions table
+nables clearer schemas with columns specific to each interaction type
+Improves query performance for example simpler SELECT function, fewer filters)/*
+
+/* 2. What genres perform best by country or region
+What are the seasonal trends in streaming vs purchasing
+Do premium members purchase more songs or stream more frequently than non-premium users?
+Are new releases driving more streams or purchases compared to older songs?
+How many artists are based in the United States compared to Canada?
+Which customers are highly engaged but not purchasing
+How does song popularity score relate to actual streams and purchases?/*
+
+/* 3. To track more detailed user behavior, you could extend the schema in a clean, scalable way by enhancing the Streams data rather than overloading existing tables.
+We can create a separate Stream_Events table to log actions like play, pause, and skip with timestamps.
+Add listening-behavior fields to Streams (e.g., listened_seconds, completion_percentage, skipped).
+Link events to Customers and Songs using foreign keys.*/
+
+/* 4. hree tasks using JOINs, WHERE conditions, and pattern matching in one query
+
+
+
